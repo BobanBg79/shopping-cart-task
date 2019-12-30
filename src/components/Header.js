@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
 import {
   Container,
@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import CartContext from '../CartContext';
 
 const useStyles = makeStyles({
   navLinkWrapper: {
@@ -30,8 +31,11 @@ const useStyles = makeStyles({
 });
 
 function Header(props) {
-const {location} = props;
+  const { location } = props;
   const classes = useStyles(location);
+  const { shoppingCart } = useContext(CartContext);
+   console.log('shoppingCart: ', shoppingCart)
+
   return (
     <AppBar position="static">
       <Container maxWidth="lg">
@@ -49,10 +53,14 @@ const {location} = props;
             </Link>
           </div>
           <Link to="/cart" className={classes.navLink}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
+            <IconButton aria-label="cart product count" color="inherit">
+            {shoppingCart.length ? (
+              <Badge badgeContent={shoppingCart.length} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
+              ) : (
+                <ShoppingCartIcon />
+              )}
             </IconButton>
           </Link>
         </Toolbar>

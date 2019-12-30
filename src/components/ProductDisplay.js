@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {
   Card,
   CardActions,
@@ -8,6 +8,7 @@ import {
   Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import CartContext from '../CartContext';
 
 const useStyles = makeStyles(theme => ({
   productImage: {
@@ -17,25 +18,23 @@ const useStyles = makeStyles(theme => ({
 
 function ProductDisplay({ product }) {
   const classes = useStyles();
-  const { name, image, description } = product;
+  const { id, name, image, description } = product;
+   const { addToCart, removeFromCart, shoppingCart } = useContext(CartContext)
   return (
     <Card>
       <CardMedia image={image} className={classes.productImage} />
       <CardContent>
-        {/* <Typography color="textSecondary" gutterBottom>
-          Product of the Day
-        </Typography> */}
-
         <Typography variant="h5" component="h2">
           {name}
         </Typography>
-        <Typography color="textSecondary">adjective</Typography>
+        <Typography color="textSecondary">Product description</Typography>
         <Typography variant="body2" component="p">
           {description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={addToCart(id)} disabled={shoppingCart.includes(id)}>Add to cart</Button>
+        <Button size="small" onClick={removeFromCart(id)} disabled={!shoppingCart.includes(id)}>Remove from cart</Button>
       </CardActions>
     </Card>
   );

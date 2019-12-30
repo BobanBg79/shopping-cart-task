@@ -14,8 +14,7 @@ import CartContext from '../CartContext';
 
 function App() {
   const [allProducts, setAllProducts] = useState(null);
-  const [cartProducts, setCartProducts] = useState(null);
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [shoppingCart, setShoppingCart] = useState([]);
 
   useEffect(() => {
     getAllProducts().then(res => {
@@ -23,12 +22,19 @@ function App() {
     });
   }, []);
 
-  const addToCart = () => {
-    console.log('add to cart this: ', this)
+  const addToCart = productId => () => {
+    if(!shoppingCart.includes(productId)){
+      setShoppingCart([...shoppingCart, productId])
+    }
+  }
+
+  const removeFromCart = productId => () => {
+    const newShoppingCart = shoppingCart.filter(cartProductId => cartProductId !== productId);
+    setShoppingCart(newShoppingCart);
   }
 
   return (
-    // <CartContext.Provider value={{cartProducts, currentLocation}}>
+    <CartContext.Provider value={{shoppingCart, addToCart, removeFromCart}}>
       <Container maxWidth="lg">
         <Router>
           <Header/>
@@ -41,7 +47,7 @@ function App() {
           </Switch>
         </Router>
       </Container>
-    // </CartContext.Provider>
+     </CartContext.Provider>
   );
 }
 
