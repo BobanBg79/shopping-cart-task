@@ -1,7 +1,6 @@
 import React from "react";
 export default React.createContext({
-  cartProducts: [],
+  shoppingCart: [],
   addToCart: () => console.log('add to cart'),
-  currentLocation: "",
-  changeLocation: () => {}
+  removeFromCart: () => console.log('remove to cart'),
 });
